@@ -347,7 +347,8 @@ ichgpio_gpio2pin(struct ichgpio_softc *sc, int gpiopin)
 		for (group = 0; group < sc->sc_descs[comm].ngroups; group++) {
 			gpiobase = sc->sc_descs[comm].groups[group].gpiobase;
 			npads = sc->sc_descs[comm].groups[group].npads;
-			if (gpiopin >= gpiobase && gpiopin < gpiobase + npads)
+			if (gpiobase != ICHGPIO_NOBASE &&
+			    gpiopin >= gpiobase && gpiopin < gpiobase + npads)
 				return (min_pin + gpiopin - gpiobase);
 			min_pin += sc->sc_descs[comm].groups[group].npads;
 		}

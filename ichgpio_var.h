@@ -47,6 +47,8 @@
 #define	ICHGPIO_NOPIN(pin)	[pin] = NULL
 #define	ICHGPIO_GROUP(gb, np)	{ .gpiobase = (gb), .npads = (np) }
 
+#define	ICHGPIO_NOBASE		-1	/* no GPIO mapping should be created */
+
 typedef	char *				ichgpio_pin_t;
 typedef	struct ichgpio_group_desc	ichgpio_group_t;
 typedef	struct ichgpio_comm_desc	ichgpio_comm_t;
