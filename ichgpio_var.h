@@ -60,7 +60,6 @@ struct ichgpio_comm_desc {
 	int		rid;
 	int		irq_status;	/* IRQ status register offset */
 	int		irq_mask;	/* IRQ mask register offset */
-	int		group_size;	/* Size of hardware pad group */
 	const ichgpio_group_t *groups;	/* Number of pins in each pad group */
 	int		ngroups;	/* Number of pad groups in commutity */
 };

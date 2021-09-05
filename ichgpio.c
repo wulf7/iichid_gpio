@@ -90,11 +90,10 @@ ichgpio_pad_community(struct ichgpio_softc *sc, int pin, int *group, int *line)
 }
 
 static inline bus_size_t
-ichgpio_pad_cfg0_offset(struct ichgpio_softc *sc, int comm, int group,
-    int line)
+ichgpio_pad_cfg0_offset(struct ichgpio_softc *sc, int comm, int pin)
 {
 	return (sc->sc_comms[comm].padbar +
-	    (group * sc->sc_descs[comm].group_size + line) *
+	    (pin - sc->sc_comms[comm].min_pin) *
 	    (sc->sc_comms[comm].features.debounce ? 16 : 8));
 }
 
@@ -105,7 +104,7 @@ ichgpio_read_pad_cfg0(struct ichgpio_softc *sc, int pin)
 	bus_size_t pad_cfg0_offset;
 
 	comm = ichgpio_pad_community(sc, pin, &group, &line);
-	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, group, line);
+	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, pin);
 	return (ichgpio_read_4(sc, comm, pad_cfg0_offset));
 }
 
@@ -116,7 +115,7 @@ ichgpio_write_pad_cfg0(struct ichgpio_softc *sc, int pin, uint32_t val)
 	bus_size_t pad_cfg0_offset;
 
 	comm = ichgpio_pad_community(sc, pin, &group, &line);
-	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, group, line);
+	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, pin);
 	ichgpio_write_4(sc, comm, pad_cfg0_offset, val);
 }
 
@@ -127,7 +126,7 @@ ichgpio_read_pad_cfg1(struct ichgpio_softc *sc, int pin)
 	bus_size_t pad_cfg0_offset;
 
 	comm = ichgpio_pad_community(sc, pin, &group, &line);
-	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, group, line);
+	pad_cfg0_offset = ichgpio_pad_cfg0_offset(sc, comm, pin);
 	return (ichgpio_read_4(sc, comm, pad_cfg0_offset + 4));
 }
 

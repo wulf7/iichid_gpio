@@ -49,7 +49,6 @@ __FBSDID("$FreeBSD$");
 	.rid = (_rid),					\
 	.irq_status = SPTLPGPIO_IRQ_STATUS,		\
 	.irq_mask = SPTLPGPIO_IRQ_MASK,			\
-	.group_size = SPTLPGPIO_GROUP_SIZE,		\
 	.groups = (_grps),				\
 	.ngroups = nitems(_grps),			\
 }
