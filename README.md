@@ -5,9 +5,10 @@ built-in support of GPIO interrupts produced by some intel GPIO controllers
 
 It currently support following controllers:
 
-| ACPI _HID | Device name                 |
-|-----------|-----------------------------|
-| INT344B   | Intel Sunrise Point-LP GPIO |
+| ACPI _HID | Device name                  |
+|-----------|------------------------------|
+| INT344B   | Intel Sunrise Point-LP GPIO  |
+| INT34C5   | Intel Tiger Lake-LP PCH GPIO |
 
 ## System requirements
 
