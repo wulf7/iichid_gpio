@@ -75,7 +75,7 @@ ichgpio_pad_community(struct ichgpio_softc *sc, int pin, int *group, int *line)
 
 	min_pin = sc->sc_comms[comm].min_pin;
 	for (grp = 0; grp < sc->sc_descs[comm].ngroups; grp++) {
-		next_pin = min_pin + sc->sc_descs[comm].groups[grp];
+		next_pin = min_pin + sc->sc_descs[comm].groups[grp].npads;
 		if (pin < next_pin) {
 			if (group != NULL)
 				*group = grp;
@@ -419,7 +419,7 @@ ichgpio_intr(void *arg)
 			reg &= ichgpio_read_4(sc, comm,
 			    sc->sc_descs[comm].irq_mask + group * 4);
 			for (line = 0;
-			     line < sc->sc_descs[comm].groups[group];
+			     line < sc->sc_descs[comm].groups[group].npads;
 			     line++, pin++) {
 				if ((reg & (1 << line)) != 0 &&
 				    sc->sc_pin_ih[pin].ih_func != NULL)
@@ -468,7 +468,7 @@ ichgpio_attach(device_t dev)
 
 		sc->sc_comms[comm].min_pin = min_pin;
 		for (group = 0; group < sc->sc_descs[comm].ngroups; group++) {
-			min_pin += sc->sc_descs[comm].groups[group];
+			min_pin += sc->sc_descs[comm].groups[group].npads;
 			/* Mask and ack all interrupts. */
 			ichgpio_write_4(sc, comm,
 			    sc->sc_descs[comm].irq_mask + group * 4, 0);

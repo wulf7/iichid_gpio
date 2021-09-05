@@ -45,11 +45,16 @@
 
 #define	ICHGPIO_PIN(pin, name)	[pin] = (name)
 #define	ICHGPIO_NOPIN(pin)	[pin] = NULL
-#define	ICHGPIO_GROUP(group)	(group)
+#define	ICHGPIO_GROUP(_npads)	{ .npads = (_npads) }
 
 typedef	char *				ichgpio_pin_t;
-typedef	int				ichgpio_group_t;
+typedef	struct ichgpio_group_desc	ichgpio_group_t;
 typedef	struct ichgpio_comm_desc	ichgpio_comm_t;
+
+struct ichgpio_group_desc {
+	int		gpiobase;
+	int		npads;
+};
 
 struct ichgpio_comm_desc {
 	int		rid;
