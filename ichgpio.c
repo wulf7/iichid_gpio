@@ -339,13 +339,32 @@ ichgpio_register_data(device_t dev, const ichgpio_comm_t *comm_descs,
 	sc->sc_ncomms = ncomms;
 }
 
+static int
+ichgpio_gpio2pin(struct ichgpio_softc *sc, int gpiopin)
+{
+	int npads, gpiobase, comm, group, min_pin = 0;
+
+	for (comm = 0; comm < sc->sc_ncomms; comm++) {
+		for (group = 0; group < sc->sc_descs[comm].ngroups; group++) {
+			gpiobase = sc->sc_descs[comm].groups[group].gpiobase;
+			npads = sc->sc_descs[comm].groups[group].npads;
+			if (gpiopin >= gpiobase && gpiopin < gpiobase + npads)
+				return (min_pin + gpiopin - gpiobase);
+			min_pin += sc->sc_descs[comm].groups[group].npads;
+		}
+	}
+	return (-1);
+}
+
 void
-ichgpio_intr_establish(device_t dev, int pin, uint32_t mode,
+ichgpio_intr_establish(device_t dev, int gpiopin, uint32_t mode,
     void (*func)(void *), void *arg)
 {
 	struct ichgpio_softc *sc = device_get_softc(dev);
-	int comm, group, line;
+	int comm, group, line, pin;
 	uint32_t reg;
+
+	pin = ichgpio_gpio2pin(sc, gpiopin);
 
 	MPASS(pin >= 0 && pin < sc->sc_npins);
 
@@ -386,11 +405,13 @@ ichgpio_intr_establish(device_t dev, int pin, uint32_t mode,
 }
 
 void
-ichgpio_intr_disestablish(device_t dev, int pin)
+ichgpio_intr_disestablish(device_t dev, int gpiopin)
 {
 	struct ichgpio_softc *sc = device_get_softc(dev);
-	int comm, group, line;
+	int comm, group, line, pin;
 	uint32_t reg;
+
+	pin = ichgpio_gpio2pin(sc, gpiopin);
 
 	MPASS(pin >= 0 && pin < sc->sc_npins);
 

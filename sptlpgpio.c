@@ -223,17 +223,17 @@ static const ichgpio_pin_t sptlpgpio_pins[] = {
 };
 
 static const ichgpio_group_t sclgpio_comm0_groups[] = {
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(0, SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(24, SPTLPGPIO_GROUP_SIZE),
 };
 static const ichgpio_group_t sclgpio_comm1_groups[] = {
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(48, SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(72, SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(96, SPTLPGPIO_GROUP_SIZE),
 };
 static const ichgpio_group_t sclgpio_comm3_groups[] = {
-	ICHGPIO_GROUP(SPTLPGPIO_GROUP_SIZE),
-	ICHGPIO_GROUP(8),
+	ICHGPIO_GROUP(120, SPTLPGPIO_GROUP_SIZE),
+	ICHGPIO_GROUP(144, 8),
 };
 
 static const ichgpio_comm_t sptlpgpio_comms[] = {

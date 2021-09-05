@@ -45,7 +45,7 @@
 
 #define	ICHGPIO_PIN(pin, name)	[pin] = (name)
 #define	ICHGPIO_NOPIN(pin)	[pin] = NULL
-#define	ICHGPIO_GROUP(_npads)	{ .npads = (_npads) }
+#define	ICHGPIO_GROUP(gb, np)	{ .gpiobase = (gb), .npads = (np) }
 
 typedef	char *				ichgpio_pin_t;
 typedef	struct ichgpio_group_desc	ichgpio_group_t;
@@ -105,9 +105,9 @@ struct ichgpio_softc {
     ichgpio_register_data((dev), (descs), nitems(descs), (pins), nitems(pins))
 void	ichgpio_register_data(device_t dev, const ichgpio_comm_t *comm_descs,
 	    int ncomms, const ichgpio_pin_t *pins, int npins);
-void	ichgpio_intr_establish(device_t dev, int pin, uint32_t mode,
-	    void (*func)(void *), void *arg);
-void	ichgpio_intr_disestablish(device_t dev, int pin);
+void	ichgpio_intr_establish(device_t, int, uint32_t, void(*)(void *),
+	    void *);
+void	ichgpio_intr_disestablish(device_t, int);
 
 extern devclass_t ichgpio_devclass;
 
