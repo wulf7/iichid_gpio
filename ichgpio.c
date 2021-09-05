@@ -94,7 +94,8 @@ ichgpio_pad_cfg0_offset(struct ichgpio_softc *sc, int comm, int group,
     int line)
 {
 	return (sc->sc_comms[comm].padbar +
-	    (group * sc->sc_descs[comm].group_size + line) * 8);
+	    (group * sc->sc_descs[comm].group_size + line) *
+	    (sc->sc_comms[comm].features.debounce ? 16 : 8));
 }
 
 static inline int
